@@ -13,7 +13,11 @@
 
                 <h1 class="page-header">
                     Listing All Posts
-                    <small>Secondary Text</small>
+                    <% if @selected_category == "none" || @selected_category == "All" %>
+                      <small>All Categories</small>
+                    <% else %>
+                      <small>Category: <%= @selected_category %></small>
+                    <% end %>
                 </h1>
 
                 <!-- Blog Post List -->

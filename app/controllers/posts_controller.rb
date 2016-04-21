@@ -21,6 +21,7 @@ class PostsController < InheritedResources::Base
 			end
 		else
 			set_posts_scope(params[:category])
+			params[:category].nil? ? @selected_category = "none" : @selected_category = params[:category]
 		end
 		# if no start params given, then return the 3 most
 		# recent posts; otherwise, get the most recent posts
