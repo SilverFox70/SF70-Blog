@@ -12,7 +12,7 @@
                 <% end %>  
 
                 <h1 class="page-header">
-                    Listing Posts
+                    Listing All Posts
                     <small>Secondary Text</small>
                 </h1>
 
@@ -30,6 +30,13 @@
                   <hr>
                   <p><%= sanitize(excerpt(post.content," ", radius: 240))%></p>
                   <a class="btn btn-primary" href="posts/<%=post.id%>">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+                  <hr>
+                  <% if admin_user_signed_in? %>
+                    <p><strong>Admin Actions: </strong>
+                      <%= link_to 'Edit', edit_post_path(post), class: "btn btn-info" %> 
+                      <%= link_to 'Delete', "/posts/#{post.id}", method: :delete, class: "btn btn-danger",confirm: "Are you sure?" %>
+                    </p>
+                  <% end %>
                 <% end %>
                 <hr>
 

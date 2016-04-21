@@ -21,6 +21,19 @@
  @import "bootstrap";
  @import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css");
 
+body {
+	background-color: Gainsboro !important;
+}
+
+.my-name {
+	color: #ffc14d !important;
+	font-size: 140% !important;
+}
+
+.btn-primary {
+	color: #f0f8ff !important;
+}
+
 .crt-btn:focus {
 	outline: 0 none !important;
 }
@@ -35,6 +48,11 @@
 
  .roomy {
  	line-height: 140%;
+ }
+
+ .larger {
+ 	font-size: 110%;
+ 	line-height: 125%;
  }
 
  .comment-buffer {
