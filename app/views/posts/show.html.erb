@@ -1,103 +1,103 @@
 <!-- Page Content -->
-	<div class="container">
+<div class="container">
 
-		<div class="row">
+	<div class="row">
 
-			<div class="col-md-8">
+		<div class="col-md-8">
 
-				<!-- Blog Post -->
+			<!-- Blog Post -->
 
-				<p id="notice"><%= notice %></p>
+			<p id="notice"><%= notice %></p>
 
-				<!-- Title -->
-				<h1><%=@post.title%></h1>
+			<!-- Title -->
+			<h1><%=@post.title%></h1>
 
-				<!-- Author -->
-				<p class="lead">
-				by SilverFox
+			<!-- Author -->
+			<p class="lead">
+			by SilverFox
+			</p>
+
+			<hr>
+
+			<!-- Date/Time -->
+			<p><span class="glyphicon glyphicon-time"></span><%= @post.created_at.to_formatted_s(:long_ordinal) %></p>
+
+			<!-- Preview Image -->
+			<%= image_tag(@post.img_url, class: "img-responsive") %>
+
+			<hr>
+
+			<!-- Post Content -->
+			<p class="lead"><%= simple_format(@post.content) %></p>
+			<hr>
+			<!-- Post Category -->
+			<p class="well well-small">Category:
+			<%= @post.category %>
+			</p>
+
+			<!-- Edit Link if admin signed in -->
+			<% if admin_user_signed_in? %>
+				<p><strong>Admin Actions: </strong>
+					<%= link_to 'Edit', edit_post_path(@post), class: "btn btn-info" %> 
+					<%= link_to 'Delete', "/posts/#{@post.id}", method: :delete, class: "btn btn-danger",confirm: "Are you sure?" %>
 				</p>
+			<% end %>
 
-				<hr>
+			<%= link_to 'Back', :back, class: "btn btn-default" %>
+			<hr>
 
-				<!-- Date/Time -->
-				<p><span class="glyphicon glyphicon-time"></span><%= @post.created_at.to_formatted_s(:long_ordinal) %></p>
+		
+			<!-- Comments form -->
+			<% if current_user %>
+			<div class="well">
+				<h4>Leave a Comment:</h4>
+				<%= form_for([@post, @post.comments.build]) do |f| %>
+				  <% if !@comment.nil? && @comment.errors.any? %>
+				    <div id="error_explanation">
+				      <h2><%= pluralize(@comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
 
-				<!-- Preview Image -->
-				<%= image_tag(@post.img_url, class: "img-responsive") %>
+				      <ul>
+				      <% @comment.errors.full_messages.each do |message| %>
+				        <li><%= message %></li>
+				      <% end %>
+				      </ul>
+				    </div>
+				  <% end %>
 
-				<hr>
-
-				<!-- Post Content -->
-				<p class="lead"><%= simple_format(@post.content) %></p>
-				<hr>
-				<!-- Post Category -->
-				<p class="well well-small">Category:
-				<%= @post.category %>
-				</p>
-
-				<!-- Edit Link if admin signed in -->
-				<% if admin_user_signed_in? %>
-					<p><strong>Admin Actions: </strong>
-						<%= link_to 'Edit', edit_post_path(@post), class: "btn btn-info" %> 
-						<%= link_to 'Delete', "/posts/#{@post.id}", method: :delete, class: "btn btn-danger",confirm: "Are you sure?" %>
-					</p>
+				    <%= f.hidden_field :author, :value => current_user_name %>
+				  <div class="field">
+				    <%= f.label "#{current_user_name}'s comment:" %><br>
+				    <%= f.text_area :body %>
+				  </div>
+				    <%= f.hidden_field :post_id, :value =>@post.id %>
+				    <%= f.hidden_field :user_id, :value => current_user.id %>
+				  <div class="actions">
+				    <%= f.submit class: "crt-btn" %>
+				  </div>
 				<% end %>
+			</div>
+			<% else %>
+			<div class="well comment-buffer">
+				<p class="sgn-com"><%= link_to("Sign in", "/users/sign_in") %> to leave a comment.</p>
+			</div>
+			<% end %>
 
-				<%= link_to 'Back', :back, class: "btn btn-default" %>
-				<hr>
+			<!-- Posted Comments -->
+			<!-- Comment -->
+			<div class="com-container">
+				<% if !@comments.nil? || @comments.count.zero?%>
+					<% @comments.each do |comment| %>
+						<%= render partial: "comments/comment", locals: {comment: comment}%>
+					<% end %>
+				<% else %> 
+				<h4>No comments yet...</h4>
+				<% end %>
+			</div><!-- /.com-container -->
+		</div><!--/.col-md-8 -->	
 
+		<!-- Blog Sidebar Widgets Column -->
+		<div class="col-md-4">
 			
-				<!-- Comments form -->
-				<% if current_user %>
-				<div class="well">
-					<h4>Leave a Comment:</h4>
-					<%= form_for([@post, @post.comments.build]) do |f| %>
-					  <% if !@comment.nil? && @comment.errors.any? %>
-					    <div id="error_explanation">
-					      <h2><%= pluralize(@comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
-
-					      <ul>
-					      <% @comment.errors.full_messages.each do |message| %>
-					        <li><%= message %></li>
-					      <% end %>
-					      </ul>
-					    </div>
-					  <% end %>
-
-					    <%= f.hidden_field :author, :value => current_user_name %>
-					  <div class="field">
-					    <%= f.label "#{current_user_name}'s comment:" %><br>
-					    <%= f.text_area :body %>
-					  </div>
-					    <%= f.hidden_field :post_id, :value =>@post.id %>
-					    <%= f.hidden_field :user_id, :value => current_user.id %>
-					  <div class="actions">
-					    <%= f.submit class: "crt-btn" %>
-					  </div>
-					<% end %>
-				</div>
-				<% else %>
-				<div class="well comment-buffer">
-					<p class="sgn-com"><%= link_to("Sign in", "/users/sign_in") %> to leave a comment.</p>
-				</div>
-				<% end %>
-
-				<!-- Posted Comments -->
-				<!-- Comment -->
-				<div class="com-container">
-					<% if !@comments.nil? || @comments.count.zero?%>
-						<% @comments.each do |comment| %>
-							<%= render partial: "comments/comment", locals: {comment: comment}%>
-						<% end %>
-					<% else %> 
-					<h4>No comments yet...</h4>
-					<% end %>
-				</div><!-- /.com-container -->
-			</div><!--/.col-md-8 -->	
-
-			<!-- Blog Sidebar Widgets Column -->
-			<div class="col-md-4">
-				
 		  <!-- Blog Search Well -->
 			<%= render partial: "search_well" %>		
 
@@ -107,15 +107,14 @@
 	      <!-- Side Widget Well -->
 	      	<%= render partial: "side_well" %>
 
-			</div><!--/.col-md-4 -->
+		</div><!--/.col-md-4 -->
 
-    </div>
-    <!-- /.row -->
+	</div><!-- /.row -->
 
-    <hr>
+	<hr>
 
-   </div>
-   <!-- /.container -->  
+</div>
+<!-- /.container -->  
 
 
 

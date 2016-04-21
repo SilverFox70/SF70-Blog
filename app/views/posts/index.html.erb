@@ -58,64 +58,24 @@
 
             <!-- Blog Sidebar Widgets Column -->
             <div class="col-md-4">
+              
+              <!-- Blog Search Well -->
+              <%= render partial: "search_well" %>    
 
-                <!-- Blog Search Well -->
-                <div class="well">
-                    <h4>Blog Search</h4>
-                    <div class="input-group search-group">
-                      <%= search_form_for @search do |f| %>
-                        <%= f.text_field :title_or_content_cont,  placeholder: "Search Posts" %>
-                        <%= f.submit "Search", class: "search-button" %>
-                      <% end %>
-                    </div>
-                    <!-- /.input-group -->
-                </div>
+              <!-- Blog Categories Well -->
+                  <%= render partial: "cat_well" %>
 
-                <!-- Blog Categories Well -->
-                <div class="well">
-                    <h4>Blog Categories</h4>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <ul class="list-unstyled">
-                              <li><%= link_to "All", posts_path(category: "All") %>
-                              </li>
-                              <% @categories[0..2].each do |cat| %>
-                                <li><%= link_to "#{cat}", posts_path(category: cat) %>
-                                </li>
-                              <% end %>  
-                            </ul>
-                        </div>
-                        <!-- /.col-lg-6 -->
-                        <div class="col-lg-6">
-                            <ul class="list-unstyled">
-                              <% if @columns %>
-                                <% @categories.from(@split_at).each do |cat| %>
-                                <li><%= link_to "#{cat}", posts_path(category: cat) %>
-                                </li>
-                                <% end %>
-                              <% end %>  
-                            </ul>
-                        </div>
-                        <!-- /.col-lg-6 -->
-                    </div>
-                    <!-- /.row -->
-                </div>
+              <!-- Side Widget Well -->
+                <%= render partial: "side_well" %>
 
-                <!-- Side Widget Well -->
-                <div class="well">
-                    <h4>Side Widget Well</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, perspiciatis adipisci accusamus laudantium odit aliquam repellat tempore quos aspernatur vero.</p>
-                </div>
+            </div><!--/.col-md-4 -->
 
-            </div>
-
-        </div>
-        <!-- /.row -->
+        </div><!-- /.row -->
 
         <hr>
 
 <br>
 
 <% if admin_user_signed_in? %>
-  <%= link_to 'New Post', new_post_path %>
+  <%= link_to 'New Post', new_post_path, class: "btn btn-warning" %>
 <% end %>
