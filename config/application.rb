@@ -34,6 +34,5 @@ module RailsWithAuth
 
     # Serve static assets
     config.serve_static_files = true
-    config.serve_static_assets = true
   end
 end
