@@ -2,7 +2,7 @@
   <h4>Blog Search</h4>
   <div class="input-group search-group">
     <%= search_form_for @search do |f| %>
-      <%= f.text_field :title_or_content_cont,  placeholder: "Search Posts", class: "bot-marg" %>
+      <%= f.text_field :title_or_content_cont,  placeholder: "Enter a keyword...", class: "bot-marg" %>
       <%= f.submit "Search", class: "search-button" %>
     <% end %>
   </div><!-- /.input-group -->
