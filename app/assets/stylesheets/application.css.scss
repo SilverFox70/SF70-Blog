@@ -27,7 +27,12 @@ body {
 
 .my-name {
 	color: #ffc14d !important;
-	font-size: 140% !important;
+}
+
+.med-text, .med-text p{
+	font-size: 16px !important;
+	line-height: 27px !important;
+	margin-bottom: 20px;
 }
 
 .btn-primary {
