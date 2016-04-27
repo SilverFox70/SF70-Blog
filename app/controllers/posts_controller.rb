@@ -83,9 +83,9 @@ class PostsController < InheritedResources::Base
 
     def set_posts_scope(category)
       if category.nil? || category == "All"
-        @posts = Post.all
+        @scoped_posts = Post.all
       else
-        @posts = Post.where(:category => category)
+        @scoped_posts = Post.where(:category => category)
       end
       @posts
     end
@@ -119,19 +119,15 @@ class PostsController < InheritedResources::Base
     # the id of the "first" in the group, which is really the record
     # with the highest id
     def check_up_limit
-      puts "-*" * 30
-      puts "last of group: #{@posts.first.id} \t of all: #{Post.last.id}"
-      puts "at limit?: #{@posts.first.id == Post.last.id }"
-      puts "-*" * 30 
-      @posts.first.id == Post.last.id   
+      @posts.first.id == @scoped_posts.last.id   
     end
 
     def check_low_limit
-      @posts.last.id == Post.first.id
+      @posts.last.id == @scoped_posts.first.id
     end
 
     def get_most_recent_posts
-      Post.order("id desc").limit(3)
+      @scoped_posts.order("id desc").limit(3)
     end
 
     def get_posts_from(start)
