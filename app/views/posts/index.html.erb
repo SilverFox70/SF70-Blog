@@ -52,14 +52,14 @@
 
                 <!-- Pager -->
                 <ul class="pager">
-                  <% if @start > 1 && @posts.length > 2%>
+                  <% if !@low_limit %>
                     <li class="previous">
-                      <%= link_to raw("&larr; Older"), posts_path(start: @start - 3) %>
+                      <%= link_to raw("&larr; Older"), posts_path(offset: @offset + 3) %>
                     </li>
                   <% end %>
-                  <% if !@limit %>
+                  <% if !@up_limit %>
                     <li class="next">
-                      <%= link_to raw("Newer &rarr;"), posts_path(start: @start + 3) %>
+                      <%= link_to raw("Newer &rarr;"), posts_path(offset: @offset - 3) %>
                     </li>
                   <% end %>
                 </ul>
