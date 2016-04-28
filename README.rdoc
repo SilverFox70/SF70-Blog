@@ -27,7 +27,7 @@ Run <tt>rake db:seed</tt>  The seed file is a little bare bones at the moment.
 
 Start your rails server <tt>rails s</tt>
 
-Point your browser to <tt>localhost:3000</tt> and you should actually be directed to the /posts route.  You can always go in and set your own welcome landing page if you want.
+Point your browser to <tt>localhost:3000</tt> and you should be directed to the welcome/index route.  In this version, that points to my landing page.
 
 To see all of the routes available run <tt>rake routes</tt> on the command line.  You will need to either stop your server or , better yet, open a new bash window (<tt>COMMAND t</tt>)
 
