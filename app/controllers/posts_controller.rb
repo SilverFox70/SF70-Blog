@@ -31,17 +31,6 @@ class PostsController < InheritedResources::Base
       if @offset == 0
         @posts = get_most_recent_posts
       else @offset = params[:offset].to_i 
-        # if @offset is less than 1, set @offset = 1
-        # or if @offset is greater than the last Post.id
-        # value, set it equal to the last Post.id
-        # if @offset < 1
-        #     @offset = 1
-        #     stop = @offset + 2
-        # elsif @offset >= get_upper_limit
-        #     @offset = get_upper_limit
-        #     @limit = true
-        # end
-        # stop = @offset + 2
         @posts = get_posts_from(@offset)
       end
       set_limits
