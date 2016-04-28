@@ -131,12 +131,7 @@ class PostsController < InheritedResources::Base
     end
 
     def get_posts_from(start)
-      these_posts = Post.order("id desc").limit(3).offset(start)
-      puts "===" * 20
-      these_posts.each do |p|
-        puts "p.id = #{p.id}"
-      end
-      puts "===" * 20
+      these_posts = @scoped_posts.order("id desc").limit(3).offset(start)
       these_posts
     end
 
