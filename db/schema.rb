@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160407215015) do
+ActiveRecord::Schema.define(version: 20160428222822) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,17 @@ ActiveRecord::Schema.define(version: 20160407215015) do
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
   add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
 
+  create_table "bookings", force: :cascade do |t|
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.integer  "place_id"
+    t.integer  "guest_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "bookings", ["place_id"], name: "index_bookings_on_place_id", using: :btree
+
   create_table "comments", force: :cascade do |t|
     t.string   "author"
     t.text     "body"
@@ -62,6 +73,34 @@ ActiveRecord::Schema.define(version: 20160407215015) do
   add_index "comments", ["post_id"], name: "index_comments_on_post_id", using: :btree
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
+  create_table "open_times", force: :cascade do |t|
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.integer  "place_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "open_times", ["place_id"], name: "index_open_times_on_place_id", using: :btree
+
+  create_table "pictures", force: :cascade do |t|
+    t.string   "img_url"
+    t.integer  "place_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "pictures", ["place_id"], name: "index_pictures_on_place_id", using: :btree
+
+  create_table "places", force: :cascade do |t|
+    t.string   "name"
+    t.text     "description"
+    t.text     "location"
+    t.integer  "owner_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "posts", force: :cascade do |t|
     t.string   "title"
     t.datetime "date"
@@ -72,35 +111,19 @@ ActiveRecord::Schema.define(version: 20160407215015) do
     t.string   "img_url"
   end
 
-  create_table "sessions", force: :cascade do |t|
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "phone_number"
-    t.boolean  "leave_message"
-    t.text     "message_explanation"
-    t.string   "email"
-    t.string   "email_confirm"
-    t.integer  "age"
-    t.text     "how_found"
-    t.date     "date"
-    t.time     "time"
-    t.text     "why_session"
-    t.string   "reference_name"
-    t.string   "reference_email"
-    t.string   "reference_phone"
-    t.string   "reference_link"
-    t.text     "reference_identifier"
-    t.string   "social_link_1"
-    t.string   "social_link_2"
-    t.boolean  "service_agreement"
-    t.boolean  "cancellation_policy"
-    t.string   "spam_question"
-    t.boolean  "location_aware"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+  create_table "reviews", force: :cascade do |t|
+    t.integer  "guest_id"
+    t.text     "body"
+    t.integer  "rating"
+    t.integer  "place_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
+  add_index "reviews", ["place_id"], name: "index_reviews_on_place_id", using: :btree
+
   create_table "user_profiles", force: :cascade do |t|
+    t.integer  "user_id"
     t.text     "first_name"
     t.text     "last_name"
     t.text     "telephone_number"
@@ -108,6 +131,8 @@ ActiveRecord::Schema.define(version: 20160407215015) do
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
   end
+
+  add_index "user_profiles", ["user_id"], name: "index_user_profiles_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -127,6 +152,10 @@ ActiveRecord::Schema.define(version: 20160407215015) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "bookings", "places"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
+  add_foreign_key "open_times", "places"
+  add_foreign_key "pictures", "places"
+  add_foreign_key "reviews", "places"
 end
